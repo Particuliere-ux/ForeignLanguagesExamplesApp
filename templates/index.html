@@ -1,0 +1,106 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="search-section">
+    <div class="search-box">
+        <input type="text" id="queryInput" placeholder="Введите слово или фразу..." />
+        <button id="searchBtn">Найти</button>
+        <button id="clearBtn">Очистить</button>
+    </div>
+    <div id="statusMessage" class="status-message"></div>
+</div>
+
+<div class="results-section">
+    <div id="definitionResult" class="definition-box">
+        <div class="placeholder">Введите слово или фразу для поиска</div>
+    </div>
+    <div id="examplesResult" class="examples-box">
+        <div class="placeholder">Здесь будут показаны контекстные примеры</div>
+    </div>
+</div>
+
+<div class="history-section">
+    <h3>История запросов</h3>
+    <div id="historyList" class="history-list"></div>
+    <button id="clearHistoryBtn" class="clear-history-btn">Очистить историю</button>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+    // CSRF токен для Django
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+    const csrftoken = getCookie('csrftoken');
+
+    // Переопределяем функцию performSearch для работы с Django
+    const originalPerformSearch = window.performSearch;
+    window.performSearch = async function(query) {
+        console.log('Выполняется поиск для:', query);
+
+        const statusEl = document.getElementById('statusMessage');
+        const definitionEl = document.getElementById('definitionResult');
+        const examplesEl = document.getElementById('examplesResult');
+        const searchBtn = document.getElementById('searchBtn');
+
+        if (!query) return;
+
+        if (searchBtn) searchBtn.disabled = true;
+        if (statusEl) statusEl.innerHTML = '<span class="loading"></span> Поиск...';
+        if (definitionEl) definitionEl.innerHTML = '<div class="placeholder">Поиск...</div>';
+        if (examplesEl) examplesEl.innerHTML = '<div class="placeholder">Поиск примеров...</div>';
+
+        try {
+            const response = await fetch('/search/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': csrftoken
+                },
+                body: JSON.stringify({ query: query })
+            });
+
+            if (!response.ok) {
+                throw new Error('HTTP error! status: ' + response.status);
+            }
+
+            const data = await response.json();
+
+            if (data.error) {
+                if (statusEl) statusEl.textContent = 'Ошибка: ' + data.error;
+                if (definitionEl) definitionEl.innerHTML = '<div class="placeholder">' + data.error + '</div>';
+                if (examplesEl) examplesEl.innerHTML = '<div class="placeholder">Попробуйте другой запрос</div>';
+                if (searchBtn) searchBtn.disabled = false;
+                return;
+            }
+
+            addToHistory(query);
+            displayDefinition(data, definitionEl);
+            displayExamples(data, examplesEl);
+            if (statusEl) statusEl.textContent = 'Найдено ' + data.total_examples_found + ' примеров';
+
+        } catch (error) {
+            if (statusEl) statusEl.textContent = 'Ошибка соединения с сервером';
+            if (definitionEl) definitionEl.innerHTML = '<div class="placeholder">Ошибка при выполнении запроса</div>';
+            if (examplesEl) examplesEl.innerHTML = '<div class="placeholder">Проверьте подключение к интернету</div>';
+        }
+
+        if (searchBtn) searchBtn.disabled = false;
+    };
+
+    // Остальной код из script.js остается без изменений
+</script>
+{% endblock %}
