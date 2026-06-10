@@ -1,3 +1,4 @@
+# Добавлена обработка ошибок для пустых поисковых запросов
 import json
 from django.shortcuts import render
 from django.http import JsonResponse
