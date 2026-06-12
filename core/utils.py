@@ -103,6 +103,7 @@ class ExampleGenerator:
             "russian_translation": ""
         }
 
+        # Fixed: Исправлена ошибка, при которой Yandex API возвращал пустой ответ
         if not data or 'def' not in data:
             return result
 
