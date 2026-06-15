@@ -1,0 +1,122 @@
+[
+  {
+    "model": "core.worddefinition",
+    "pk": 1,
+    "fields": {
+      "word": "hello",
+      "translation": "привет",
+      "transcription": "həˈləʊ",
+      "definition_data": {
+        "meanings": {
+          "междометие": ["привет!", "здравствуйте!"]
+        }
+      }
+    }
+  },
+  {
+    "model": "core.worddefinition",
+    "pk": 2,
+    "fields": {
+      "word": "world",
+      "translation": "мир",
+      "transcription": "wɜːld",
+      "definition_data": {
+        "meanings": {
+          "существительное": ["мир", "свет"]
+        }
+      }
+    }
+  },
+  {
+    "model": "core.worddefinition",
+    "pk": 3,
+    "fields": {
+      "word": "example",
+      "translation": "пример",
+      "transcription": "ɪɡˈzɑːmpəl",
+      "definition_data": {
+        "meanings": {
+          "существительное": ["пример", "образец"]
+        }
+      }
+    }
+  },
+  {
+    "model": "core.example",
+    "pk": 1,
+    "fields": {
+      "word": 1,
+      "text": "Hello, how are you today?",
+      "translated_text": "Привет, как у тебя дела сегодня?",
+      "source": "dictionary",
+      "score": 45,
+      "rating": "Отличный пример",
+      "word_count": 6
+    }
+  },
+  {
+    "model": "core.example",
+    "pk": 2,
+    "fields": {
+      "word": 1,
+      "text": "She said hello to everyone in the room.",
+      "translated_text": "Она сказала привет всем в комнате.",
+      "source": "yandex",
+      "score": 35,
+      "rating": "Хороший пример",
+      "word_count": 8
+    }
+  },
+  {
+    "model": "core.example",
+    "pk": 3,
+    "fields": {
+      "word": 2,
+      "text": "The world is full of amazing places to explore.",
+      "translated_text": "Мир полон удивительных мест для исследования.",
+      "source": "linguee",
+      "score": 40,
+      "rating": "Отличный пример",
+      "word_count": 9
+    }
+  },
+  {
+    "model": "core.example",
+    "pk": 4,
+    "fields": {
+      "word": 2,
+      "text": "He traveled around the world last year.",
+      "translated_text": "Он путешествовал по миру в прошлом году.",
+      "source": "dictionary",
+      "score": 30,
+      "rating": "Хороший пример",
+      "word_count": 7
+    }
+  },
+  {
+    "model": "core.example",
+    "pk": 5,
+    "fields": {
+      "word": 3,
+      "text": "Can you give me an example of this rule?",
+      "translated_text": "Можешь привести мне пример этого правила?",
+      "source": "yandex",
+      "score": 38,
+      "rating": "Хороший пример",
+      "word_count": 8
+    }
+  },
+  {
+    "model": "core.example",
+    "pk": 6,
+    "fields": {
+      "word": 3,
+      "text": "This is a perfect example of what I was talking about.",
+      "translated_text": "Это отличный пример того, о чём я говорил.",
+      "source": "linguee",
+      "score": 42,
+      "rating": "Отличный пример",
+      "word_count": 10
+    }
+  }
+]
