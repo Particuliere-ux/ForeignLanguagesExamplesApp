@@ -9,16 +9,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = os.getenv('SECRET_KEY', 'django-insecure-default-key-for-dev')
 
-# Production settings for PythonAnywhere
+DEBUG = os.getenv('DEBUG', 'True') == 'True'
+
 ALLOWED_HOSTS = [
     'localhost',
     '127.0.0.1',
     '.pythonanywhere.com',
 ]
-
-DEBUG = os.getenv('DEBUG', 'True') == 'True'
-
-STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -40,7 +37,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'context_generator.urls'
+ROOT_URLCONF = 'ForeignLanguagesExamplesApp.urls'
 
 TEMPLATES = [
     {
@@ -58,7 +55,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'context_generator.wsgi.application'
+WSGI_APPLICATION = 'ForeignLanguagesExamplesApp.wsgi.application'
 
 DATABASES = {
     'default': {
@@ -89,13 +86,13 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [BASE_DIR / 'static']
+STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# Yandex API
+# Yandex API settings
 YANDEX_API_KEY = os.getenv('YANDEX_API_KEY')
 YANDEX_BASE_URL = "https://dictionary.yandex.net/api/v1/dicservice.json/lookup"
 
-# Настройки API
 API_TIMEOUT = 5
 LINGUEE_TIMEOUT = 10

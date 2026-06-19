@@ -1,7 +1,5 @@
 console.log('script.js загружен');
 
-// Управление темой
-
 function toggleTheme() {
     console.log('toggleTheme вызван');
     const html = document.documentElement;
@@ -33,8 +31,6 @@ function loadTheme() {
     console.log('Загружаем тему:', theme);
     setTheme(theme);
 }
-
-// История
 
 let history = [];
 
@@ -81,8 +77,6 @@ function renderHistory() {
     ).join(', ');
 }
 
-// Поиск
-
 function searchQuery(query) {
     console.log('Поиск по истории:', query);
     const input = document.getElementById('queryInput');
@@ -90,7 +84,6 @@ function searchQuery(query) {
     performSearch(query);
 }
 
-// Получение CSRF-токена для Django
 function getCSRFToken() {
     let cookieValue = null;
     if (document.cookie && document.cookie !== '') {
@@ -173,8 +166,6 @@ async function performSearch(query) {
 
     if (searchBtn) searchBtn.disabled = false;
 }
-
-// Отображение результатов
 
 function displayDefinition(data, container) {
     if (!container) return;
@@ -339,8 +330,6 @@ function displayExamples(data, container) {
     console.log('Примеры отображены');
 }
 
-// Инициализация
-
 document.addEventListener('DOMContentLoaded', function() {
     console.log('DOM загружен');
 
@@ -387,4 +376,27 @@ document.addEventListener('DOMContentLoaded', function() {
             const exEl = document.getElementById('examplesResult');
             const stEl = document.getElementById('statusMessage');
             if (defEl) defEl.innerHTML = '<div class="placeholder">Введите слово или фразу для поиска</div>';
-            if (
+            if (exEl) exEl.innerHTML = '<div class="placeholder">Здесь будут показаны контекстные примеры</div>';
+            if (stEl) stEl.textContent = '';
+        });
+    }
+
+    if (clearHistoryBtn) {
+        clearHistoryBtn.addEventListener('click', function() {
+            console.log('Кнопка "Очистить историю" нажата');
+            if (confirm('Очистить историю запросов?')) {
+                clearHistory();
+            }
+        });
+    }
+
+    if (themeToggle) {
+        console.log('Кнопка темы найдена, добавляем обработчик');
+        themeToggle.addEventListener('click', function(e) {
+            console.log('Кнопка темы нажата');
+            toggleTheme();
+        });
+    }
+
+    console.log('Все обработчики установлены');
+});

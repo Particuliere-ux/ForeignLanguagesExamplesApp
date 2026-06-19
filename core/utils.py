@@ -1,7 +1,7 @@
 import re
 import requests
 from typing import List, Dict, Optional
-from PyMultiDictionary import MultiDictionary, DICT_MW
+from PyMultiDictionary import MultiDictionary
 from bs4 import BeautifulSoup
 from django.conf import settings
 
@@ -189,7 +189,7 @@ class ExampleGenerator:
 
             if not meanings:
                 try:
-                    eng_meanings = self.dictionary.meaning('en', word, dictionary=DICT_MW)
+                    eng_meanings = self.dictionary.meaning('en', word)
                     if eng_meanings:
                         for pos, defs in eng_meanings.items():
                             pos_ru = POS_MAP.get(pos, pos)
